@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#070b14" />
+    <meta
+      name="description"
+      content="AlgoNest — curated DSA sheets, quizzes, mock tests and an adaptive daily plan, built for placements."
+    />
+    <title>AlgoNest — Prepare with a plan</title>
+    <script>
+      // Apply the persisted theme before first paint to avoid a flash.
+      try {
+        const stored = JSON.parse(localStorage.getItem('algonest-theme') || '{}');
+        const theme = stored?.state?.theme || 'dark';
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.style.colorScheme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute('content', theme === 'dark' ? '#070b14' : '#f6f8fb');
+      } catch (_error) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+    <script>
+      // Two React copies (a stale Vite `?v=` chunk mixed with a fresh one) make
+      // every hook dispatcher null. Reload once, before React mounts, so the
+      // browser fetches one consistent module graph. Shares the rate-limit key
+      // with ErrorBoundary so we never end up in a reload loop.
+      (function () {
+        var KEY = 'ag:last-auto-reload';
+        window.addEventListener('error', function (event) {
+          var message = (event && (event.message || (event.error && event.error.message))) || '';
+          if (!/Cannot read properties of null \(reading 'use|Invalid hook call/.test(message)) return;
+          try {
+            var last = Number(sessionStorage.getItem(KEY) || 0);
+            if (Date.now() - last < 20000) return;
+            sessionStorage.setItem(KEY, String(Date.now()));
+          } catch (_storageError) {
+            return;
+          }
+          window.location.reload();
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

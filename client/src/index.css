@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: <html class="dark"> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --ag-canvas: #f5f8fc;
+  --ag-surface: #ffffff;
+  --ag-surface-2: #eaf0f7;
+  --ag-ink: #0d1626;
+  --ag-muted: #56657a;
+  --ag-line: #d8e2ee;
+  --ag-primary: #0d9488;
+  --ag-primary-hover: #0b7f75;
+  --ag-primary-ink: #ffffff;
+  --ag-accent: #7c3aed;
+  --ag-accent-soft: #ede9fe;
+  --ag-success: #15803d;
+  --ag-danger: #dc2626;
+  --ag-warning: #b45309;
+  color-scheme: light;
+}
+
+.dark {
+  --ag-canvas: #070b14;
+  --ag-surface: #0e1523;
+  --ag-surface-2: #151f31;
+  --ag-ink: #e9f0fa;
+  --ag-muted: #94a5bd;
+  --ag-line: #25324a;
+  --ag-primary: #2dd4bf;
+  --ag-primary-hover: #5eead4;
+  --ag-primary-ink: #04201d;
+  --ag-accent: #a78bfa;
+  --ag-accent-soft: #221a3d;
+  --ag-success: #4ade80;
+  --ag-danger: #f87171;
+  --ag-warning: #fbbf24;
+  color-scheme: dark;
+}
+
+/* `inline` keeps the CSS variables live, so .dark overrides every utility. */
+@theme inline {
+  --color-canvas: var(--ag-canvas);
+  --color-surface: var(--ag-surface);
+  --color-surface-2: var(--ag-surface-2);
+  --color-ink: var(--ag-ink);
+  --color-muted: var(--ag-muted);
+  --color-line: var(--ag-line);
+  --color-primary: var(--ag-primary);
+  --color-primary-hover: var(--ag-primary-hover);
+  --color-primary-ink: var(--ag-primary-ink);
+  --color-accent: var(--ag-accent);
+  --color-accent-soft: var(--ag-accent-soft);
+  --color-success: var(--ag-success);
+  --color-danger: var(--ag-danger);
+  --color-warning: var(--ag-warning);
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--ag-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ag-primary);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--ag-primary) 32%, transparent);
+  }
+
+  /* Keyboard users skip the sidebar/topbar. */
+  .skip-link {
+    @apply sr-only;
+  }
+  .skip-link:focus {
+    @apply not-sr-only fixed left-4 top-4 z-100 rounded-lg bg-primary px-4 py-2 text-primary-ink;
+  }
+}
+
+@layer utilities {
+  .ag-card {
+    @apply rounded-2xl border border-line bg-surface;
+  }
+
+  .ag-ring {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--ag-primary) 18%, transparent),
+      0 24px 70px -40px color-mix(in srgb, var(--ag-primary) 70%, transparent);
+  }
+
+  .ag-grid-bg {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--ag-line) 70%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--ag-line) 70%, transparent) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 10%, transparent 100%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 10%, transparent 100%);
+  }
+
+  .ag-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .ag-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--ag-line);
+    border-radius: 999px;
+  }
+}
+
+@keyframes ag-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ag-rise {
+  animation: ag-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
