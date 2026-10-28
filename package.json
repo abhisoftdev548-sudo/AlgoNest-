@@ -1,0 +1,32 @@
+{
+  "name": "algonest",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AlgoNest \u2014 production-grade DSA preparation platform (MERN monorepo)",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "dev": "concurrently -n server,client -c cyan,magenta \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm run dev -w @algonest/server",
+    "dev:client": "npm run dev -w @algonest/client",
+    "build": "npm run build -w @algonest/client",
+    "preview": "npm run preview -w @algonest/client",
+    "start": "npm run start -w @algonest/server",
+    "seed:admin": "npm run seed:admin -w @algonest/server",
+    "test": "npm run test -w @algonest/server && npm run test:render -w @algonest/client",
+    "lint": "npm run lint -w @algonest/server && npm run lint -w @algonest/client",
+    "db:up": "docker compose up -d mongo",
+    "db:down": "docker compose down",
+    "check:links": "npm run check:links -w @algonest/server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
